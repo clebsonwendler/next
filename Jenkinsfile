@@ -1,7 +1,6 @@
 pipeline{
     agent any
     tools{
-        dockerTool 'Docker'
         nodejs 'NodeJS'
     }
     environment {
@@ -28,9 +27,9 @@ pipeline{
                 }
         }
 
-        stage('teste'){
-            steps{
-                sh 'ls -lah'
+        stage("Run Custom Docker Daemon"){
+            steps {
+                sh "sudo dockerd &"
             }
         }
 
