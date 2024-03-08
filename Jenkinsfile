@@ -36,7 +36,7 @@ pipeline{
 
         stage('Build Image') {
             steps{
-                sh 'docker build -t ${IMAGE_NAME}:${RELEASE} next/.'
+                sh 'docker build -t ${IMAGE_NAME}:${RELEASE} .'
             }
         }
 
