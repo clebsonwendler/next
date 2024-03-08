@@ -20,6 +20,16 @@ pipeline{
             }
         }
 
+        stage('Logging into AWS ECR') {
+            steps {
+                withCredentials([aws(credentialsId: 'aws-credentials', accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
+                    script{
+                        sh """aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com"""
+                    }
+                }
+            }
+        }
+
         stage('Checkout Application'){
                 steps {
                     //git branch: "master", credentialsId: "github", url: "${REPO_GITHUB}"
@@ -45,13 +55,7 @@ pipeline{
            }
         }
 
-        stage('Logging into AWS ECR') {
-            steps {
-                script {
-                    sh """aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com"""
-                }
-            }
-        }
+        
 
         stage('Pushing to ECR') {
             steps{  
