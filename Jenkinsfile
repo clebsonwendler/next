@@ -8,7 +8,7 @@ pipeline{
 	    APP_NAME = "pp-front"
         RELEASE = "1.0.0"
         IMAGE_NAME = "${APP_NAME}"
-        REPO_GITHUB = "https://github.com/clebsonwendler/testes"
+        REPO_GITHUB = "https://github.com/clebsonwendler/next"
         REPOSITORY_URI = "905418180391.dkr.ecr.us-east-1.amazonaws.com/pp-front"
         AWS_ACCOUNT_ID="905418180391"
         AWS_DEFAULT_REGION="us-east-1"
