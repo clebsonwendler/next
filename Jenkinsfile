@@ -47,7 +47,7 @@ pipeline{
                         git config user.name "Jenkins Agent"
                         git add manifests/deployment.yaml
                         git commit -m "Update to version ${RELEASE}"
-                        git push https://${GITHUB_TOKEN}@github.com/${GITHUB_USERNAME}/${REPO_NAME} HEAD:master
+                        git push https://$GITHUB_TOKEN@github.com/${GITHUB_USERNAME}/${REPO_NAME} HEAD:master
                     """
             }
         }
