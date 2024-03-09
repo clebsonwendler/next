@@ -28,29 +28,6 @@ pipeline{
                 }
         }
 
-        stage('Update Version for ArgoCD'){
-            steps {
-                script {
-                    sh """
-                        cat manifests/deployment.yaml
-                        sed -i 's|${IMAGE_NAME}.*|${IMAGE_NAME}:${RELEASE}|g' manifests/deployment.yaml
-                        cat manifests/deployment.yaml
-                    """
-                }
-            }
-        }
-
-        stage('Update Deployment File') {
-            steps {
-                    sh ('git config user.email "hostmaster@precopratico.com.br"')
-                    sh ('git config user.name "Jenkins Agent"')
-                    sh ('git add manifests/deployment.yaml')
-                    sh ('git commit -m "Update to version $RELEASE"')
-                    sh ('git push https://$GITHUB_TOKEN@github.com/$GITHUB_USERNAME/$REPO_NAME HEAD:master')
-            }
-        }
-
-
     //     stage("Run Custom Docker Daemon"){
     //         steps {
     //             sh "sudo dockerd &"
@@ -92,7 +69,25 @@ pipeline{
     //         }
     //     }
 
-        
+        stage('Update Version for ArgoCD'){
+            steps {
+                script {
+                    sh ('cat manifests/deployment.yaml')
+                    sh ('sed -i "s|$IMAGE_NAME.*|$IMAGE_NAME:$RELEASE|g" manifests/deployment.yaml')
+                    sh ('cat manifests/deployment.yaml')
+                }
+            }
+        }
+
+        stage('Update Deployment File') {
+            steps {
+                    sh ('git config user.email "hostmaster@precopratico.com.br"')
+                    sh ('git config user.name "Jenkins Agent"')
+                    sh ('git add manifests/deployment.yaml')
+                    sh ('git commit -m "Update to version $RELEASE"')
+                    sh ('git push https://$GITHUB_TOKEN@github.com/$GITHUB_USERNAME/$REPO_NAME HEAD:master')
+            }
+        }
 
     }
 }
