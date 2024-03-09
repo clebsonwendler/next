@@ -5,7 +5,7 @@ pipeline{
     }
     environment {
 	    APP_NAME = "pp-front"
-        RELEASE = "1.0.0"
+        RELEASE = "img${BUILD_NUMBER}"
         IMAGE_NAME = "${APP_NAME}"
         REPO_GITHUB = "https://github.com/clebsonwendler/next"
         REPOSITORY_URI = "905418180391.dkr.ecr.us-east-1.amazonaws.com/pp-front"
@@ -17,16 +17,6 @@ pipeline{
         stage('Cleanup Workspace'){
             steps {
                 cleanWs()
-            }
-        }
-
-        stage('Logging into AWS ECR') {
-            steps {
-                withCredentials([aws(credentialsId: 'aws-credentials', accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
-                    script{
-                        sh """aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com"""
-                    }
-                }
             }
         }
 
@@ -55,7 +45,15 @@ pipeline{
            }
         }
 
-        
+        stage('Logging into AWS ECR') {
+            steps {
+                withCredentials([aws(credentialsId: 'aws-credentials', accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
+                    script{
+                        sh """aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com"""
+                    }
+                }
+            }
+        }
 
         stage('Pushing to ECR') {
             steps{  
@@ -70,31 +68,31 @@ pipeline{
             }
         }
 
-        // stage('Update Version for ArgoCD'){
-        //     steps {
-        //         script {
-        //             sh """
-        //                 cat manifests/deployment.yaml
-        //                 sed -i 's|${IMAGE_NAME}.*|${IMAGE_NAME}:${RELEASE}|g' manifests/deployment.yaml
-        //                 cat manifests/deployment.yaml
-        //             """
-        //         }
-        //     }
-        // }
+        stage('Update Version for ArgoCD'){
+            steps {
+                script {
+                    sh """
+                        cat manifests/deployment.yaml
+                        sed -i 's|${IMAGE_NAME}.*|${IMAGE_NAME}:${RELEASE}|g' manifests/deployment.yaml
+                        cat manifests/deployment.yaml
+                    """
+                }
+            }
+        }
 
-        // stage('Update Deployment File') {
-        //     steps {
-        //         withCredentials([string(credentialsId: 'github_token', variable: 'GITHUB_TOKEN')]) {
-        //             sh """
-        //                 git config user.email "noc@certdox.io"
-        //                 git config user.name "Jenkins Agent"
-        //                 git add manifests/deployment.yaml
-        //                 git commit -m "Update to version ${RELEASE}"
-        //                 git push https://${GITHUB_TOKEN}@github.com/${GITHUB_ORGANIZATION}/${APP_NAME} HEAD:master
-        //             """
-        //         }
-        //     }
-        // }
+        stage('Update Deployment File') {
+            steps {
+                withCredentials([string(credentialsId: 'github_token', variable: 'GITHUB_TOKEN')]) {
+                    sh """
+                        git config user.email "hostmaster@precopratico.com.br"
+                        git config user.name "Jenkins Agent"
+                        git add manifests/deployment.yaml
+                        git commit -m "Update to version ${RELEASE}"
+                        git push https://${GITHUB_TOKEN}@github.com/${APP_NAME} HEAD:master
+                    """
+                }
+            }
+        }
 
     }
 }
