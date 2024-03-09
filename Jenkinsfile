@@ -8,6 +8,7 @@ pipeline{
         RELEASE = "img${BUILD_NUMBER}"
         IMAGE_NAME = "${APP_NAME}"
         REPO_GITHUB = "https://github.com/clebsonwendler/next"
+        REPO_NAME = "next"
         REPOSITORY_URI = "905418180391.dkr.ecr.us-east-1.amazonaws.com/pp-front"
         AWS_ACCOUNT_ID="905418180391"
         AWS_DEFAULT_REGION="us-east-1"
@@ -87,7 +88,7 @@ pipeline{
                         git config user.name "Jenkins Agent"
                         git add manifests/deployment.yaml
                         git commit -m "Update to version ${RELEASE}"
-                        git push https://${GITHUB_TOKEN}@github.com/${APP_NAME} HEAD:master
+                        git push https://${GITHUB_TOKEN}@github.com/${REPO_NAME}/${APP_NAME} HEAD:master
                     """
                 }
             }
