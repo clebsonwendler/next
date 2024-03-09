@@ -1,9 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: pp-front:img44
+  name: pp-front:img46
   labels:
-    app: pp-front:img44
+    app: pp-front:img46
   namespace: apps
   annotations:
     argocd.argoproj.io/sync-wave: "1"
@@ -11,38 +11,38 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: pp-front:img44
+      app: pp-front:img46
   template:
     metadata:
       labels:
-        app: pp-front:img44
+        app: pp-front:img46
     spec:
       containers:
-      - name: pp-front:img44
-        image: 905418180391.dkr.ecr.us-east-1.amazonaws.com/pp-front:img44
+      - name: pp-front:img46
+        image: 905418180391.dkr.ecr.us-east-1.amazonaws.com/pp-front:img46
         imagePullPolicy: Always
         ports:
         - containerPort: 3000
       volumes:
       - name: data-vol
         persistentVolumeClaim:
-          claimName: pp-front:img44
+          claimName: pp-front:img46
       imagePullSecrets:
         - name: regcred
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: pp-front:img44
+  name: pp-front:img46
   labels:
-    app: pp-front:img44
+    app: pp-front:img46
   namespace: apps
   annotations:
     argocd.argoproj.io/sync-wave: "2"
 spec:
   type: ClusterIP
   selector:
-    app: pp-front:img44
+    app: pp-front:img46
   ports:
     - protocol: TCP
       port: 3000
