@@ -42,13 +42,11 @@ pipeline{
 
         stage('Update Deployment File') {
             steps {
-                    sh """
-                        git config user.email "hostmaster@precopratico.com.br"
-                        git config user.name "Jenkins Agent"
-                        git add manifests/deployment.yaml
-                        git commit -m "Update to version ${RELEASE}"
-                        git push https://$GITHUB_TOKEN@github.com/${GITHUB_USERNAME}/${REPO_NAME} HEAD:master
-                    """
+                    sh ('git config user.email "hostmaster@precopratico.com.br"')
+                    sh ('git config user.name "Jenkins Agent"')
+                    sh ('git add manifests/deployment.yaml')
+                    sh ('git commit -m "Update to version $RELEASE"')
+                    sh ('git push https://$GITHUB_TOKEN@github.com/$GITHUB_USERNAME/$REPO_NAME HEAD:master')
             }
         }
 
