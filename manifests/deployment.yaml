@@ -19,21 +19,21 @@ spec:
     spec:
       containers:
       - name: pp-front
-        image: 905418180391.dkr.ecr.us-east-1.amazonaws.com/pp-front:img47
+        image: 905418180391.dkr.ecr.us-east-1.amazonaws.com/pp-front:img46
         imagePullPolicy: Always
         ports:
         - containerPort: 3000
       volumes:
       - name: data-vol
         persistentVolumeClaim:
-          claimName: pp-front
+          claimName: pp-front-pvc
       imagePullSecrets:
         - name: regcred
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: pp-front
+  name: pp-front-service
   labels:
     app: pp-front
   namespace: apps
