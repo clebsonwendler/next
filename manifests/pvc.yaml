@@ -4,9 +4,9 @@ metadata:
   name: pp-front-pvc
   namespace: apps
   annotations:
-    argocd.argoproj.io/sync-wave: "0"
+    argocd.argoproj.io/sync-wave: "-1"
 spec:
-  storageClassName: ebs-sc
+  storageClassName: ebs-sc-immediate
   accessModes:
     - ReadWriteOnce
   resources:
