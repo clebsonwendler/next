@@ -22,7 +22,7 @@ pipeline{
 
         stage('Checkout Application'){
                 steps {
-                    git branch: "master", credentialsId: "github_teste", url: "${REPO_GITHUB}"
+                    git branch: "master", credentialsId: "github_token", url: "${REPO_GITHUB}"
                 }
         }
 
@@ -81,7 +81,7 @@ pipeline{
 
         stage('Update Deployment File') {
             steps {
-                withCredentials([string(credentialsId: 'github_teste', variable: 'GITHUB_TOKEN')]) {
+                withCredentials([string(credentialsId: 'github_token', variable: 'GITHUB_TOKEN')]) {
                     sh """
                         git config user.email "hostmaster@precopratico.com.br"
                         git config user.name "Jenkins Agent"
