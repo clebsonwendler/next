@@ -22,7 +22,7 @@ pipeline{
 
         stage('Checkout Application'){
                 steps {
-                    git branch: "master", credentialsId: "github_user_token", url: "${REPO_GITHUB}"
+                    git branch: "master", credentialsId: "github_token", url: "${REPO_GITHUB}"
                 }
         }
 
