@@ -7,9 +7,9 @@ pipeline{
 	    APP_NAME = "pp-front"
         RELEASE = "img${BUILD_NUMBER}"
         IMAGE_NAME = "${APP_NAME}"
-        REPO_GITHUB = "https://github.com/clebsonwendler/next"
+        GITHUB_USERNAME = "clebsonwendler"
         REPO_NAME = "next"
-        REPOSITORY_URI = "905418180391.dkr.ecr.us-east-1.amazonaws.com/pp-front"
+        ECR_URI = "905418180391.dkr.ecr.us-east-1.amazonaws.com/pp-front"
         AWS_ACCOUNT_ID="905418180391"
         AWS_DEFAULT_REGION="us-east-1"
         GITHUB_TOKEN = credentials('github_token')
@@ -24,7 +24,7 @@ pipeline{
 
         stage('Checkout Application'){
                 steps {
-                    git branch: "master", credentialsId: "github_user_token", url: "${REPO_GITHUB}"
+                    git branch: "master", credentialsId: "github_user_token", url: "https://github.com/${GITHUB_USERNAME}/${REPO_NAME}"
                 }
         }
 
@@ -47,7 +47,7 @@ pipeline{
                         git config user.name "Jenkins Agent"
                         git add manifests/deployment.yaml
                         git commit -m "Update to version ${RELEASE}"
-                        git push https://${GITHUB_TOKEN}@github.com/${REPO_NAME}/${APP_NAME} HEAD:master
+                        git push https://${GITHUB_TOKEN}@github.com/${GITHUB_USERNAME}/${REPO_NAME} HEAD:master
                     """
             }
         }
@@ -83,7 +83,7 @@ pipeline{
 
     //     stage('Pushing to ECR') {
     //         steps{  
-    //             sh 'docker tag ${IMAGE_NAME}:${RELEASE} ${REPOSITORY_URI}:$RELEASE'
+    //             sh 'docker tag ${IMAGE_NAME}:${RELEASE} ${ECR_URI}:$RELEASE'
     //             sh 'docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_NAME}:${RELEASE}'
     //         }
     //     }
