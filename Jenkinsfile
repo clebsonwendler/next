@@ -11,9 +11,9 @@ pipeline {
     stage('Checkout Application'){
             steps {
                 script{
-                  
+                   def branchName = "${GIT_BRANCH}".split('/').last()
                   sh ('''
-                    def branchName = "${GIT_BRANCH}".split('/').last()
+                   
                     echo ${branchName}
                     ''')
                 }
