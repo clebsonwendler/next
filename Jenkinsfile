@@ -1,14 +1,16 @@
 pipeline {
+  agent any
   environment {
     BRANCH_NAME = "${GIT_BRANCH}"
   }
 
-  def branchNameWithoutOrigin = BRANCH_NAME.split('/').last() // Using split for flexibility
+ 
 
   stages {
     stage("Testes") { // Capitalization corrected
       steps {
         script { // Using script block for cleaner Groovy syntax
+           def branchNameWithoutOrigin = "${GIT_BRANCH}".split('/').last()
           echo "Branch name without 'origin/': ${branchNameWithoutOrigin}"
         }
       }
