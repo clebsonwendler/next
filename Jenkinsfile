@@ -75,9 +75,11 @@ pipeline{
         stage('Update Version for ArgoCD'){
             steps {
                 script {
-                    sh ('cat manifests/deployment.yaml')
-                    sh ('sed -i "s|$IMAGE_NAME:.*|$IMAGE_NAME:$RELEASE|g" manifests/deployment.yaml')
-                    sh ('cat manifests/deployment.yaml')
+                    sh '''
+                        cat manifests/deployment.yaml
+                        sed -i "s|$IMAGE_NAME:.*|$IMAGE_NAME:$RELEASE|g" manifests/deployment.yaml
+                        cat manifests/deployment.yaml
+                    '''
                 }
             }
         }
@@ -86,11 +88,13 @@ pipeline{
             steps {
                 script {
                     def branchName = "${GIT_BRANCH}".split('/').last()
-                    sh ('git config user.email "hostmaster@precopratico.com.br"')
-                    sh ('git config user.name "Jenkins Agent"')
-                    sh ('git add manifests/deployment.yaml')
-                    sh ('git commit -m "Update to version $RELEASE"')
-                    sh ('git push https://$GITHUB_TOKEN@github.com/$GITHUB_USERNAME/$REPO_NAME HEAD:$branchName')
+                    sh '''
+		    	        git config user.email "hostmaster@precopratico.com.br"
+                    	git config user.name "Jenkins Agent"
+                    	git add manifests/deployment.yaml
+                    	git commit -m "Update to version $RELEASE"
+                    	git push https://$GITHUB_TOKEN@github.com/$GITHUB_USERNAME/$REPO_NAME HEAD:'${branchName}'
+		            '''
                 }
             }
         }
