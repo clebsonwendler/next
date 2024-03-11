@@ -13,7 +13,7 @@ pipeline{
         AWS_ACCOUNT_ID="905418180391"
         AWS_DEFAULT_REGION="us-east-1"
         GITHUB_TOKEN = credentials('github_token')
-	BRANCH_NAME = "${GIT_BRANCH}"
+	BRANCH_NAME = "${GIT_BRANCH}.split('/').last()"
     }
 
 
@@ -25,7 +25,7 @@ pipeline{
         stage("testes"){
             steps {
 		
-                sh "echo ${BRANCH_NAME}.split('/').last()"
+                sh "echo ${BRANCH_NAME}"
             }
         }
 
