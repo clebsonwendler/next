@@ -19,20 +19,12 @@ pipeline{
 	
     stages{
 
-	    def teste = BRANCH_NAME.split('/').last()
-
-        stage('Cleanup Workspace'){
-            steps {
-                cleanWs()
-            }
-        }
-
-        
+	    def testebla = BRANCH_NAME.replace('origin/', '')
 
         stage("testes"){
             steps {
 		
-                sh 'echo ${teste}'
+                sh 'echo ${testebla}'
             }
         }
 
