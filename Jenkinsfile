@@ -19,7 +19,7 @@ pipeline{
 	
     stages{
 
-	    def teste = ${BRANCH_NAME}.split('/').last()
+	    def teste = BRANCH_NAME.split('/').last()
 
         stage('Cleanup Workspace'){
             steps {
