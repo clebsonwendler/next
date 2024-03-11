@@ -28,7 +28,8 @@ pipeline{
 
         stage("testes"){
             steps {
-                sh 'echo ${BRANCH_NAME}.split('/').last()'
+		    def teste = ${BRANCH_NAME}.split('/').last()
+                sh 'echo ${teste}.'
             }
         }
 
