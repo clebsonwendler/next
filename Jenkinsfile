@@ -4,7 +4,7 @@ pipeline{
         nodejs 'NodeJS'
     }
     environment {
-	    APP_NAME = "pp-example"
+	    APP_NAME = "pp-front"
         RELEASE = "v${BUILD_NUMBER}"
         IMAGE_NAME = "${APP_NAME}"
         GITHUB_USERNAME = "clebsonwendler"
