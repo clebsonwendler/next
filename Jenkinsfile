@@ -16,7 +16,10 @@ pipeline{
 	BRANCH_NAME = "${GIT_BRANCH}"
     }
 	
+	
     stages{
+
+	    def teste = ${BRANCH_NAME}.split('/').last()
 
         stage('Cleanup Workspace'){
             steps {
@@ -28,8 +31,8 @@ pipeline{
 
         stage("testes"){
             steps {
-		    def teste = ${BRANCH_NAME}.split('/').last()
-                sh 'echo ${teste}.'
+		
+                sh 'echo ${teste}'
             }
         }
 
