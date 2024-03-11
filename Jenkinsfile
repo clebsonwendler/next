@@ -27,7 +27,6 @@ pipeline{
         stage("testes"){
             steps {
                 sh 'echo ${GIT_BRANCH}'
-		sh "echo BRANCH_NAME ${BRANCH_NAME}"
             }
         }
 
