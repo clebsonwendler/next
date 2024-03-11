@@ -15,7 +15,7 @@ pipeline {
                   sh ('''
                     def branchName = "${GIT_BRANCH}".split('/').last()
                     echo ${branchName}
-                    '''')
+                    ''')
                 }
             }
         }
