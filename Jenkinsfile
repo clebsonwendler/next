@@ -13,6 +13,7 @@ pipeline {
                 script{
                   def branchName = "${GIT_BRANCH}".split('/').last()
                 git branch: "${branchName}", credentialsId: "github_user_token", url: "https://github.com/clebsonwendler/next"
+                  sh "ls -lah"
                 }
             }
         }
