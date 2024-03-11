@@ -25,7 +25,7 @@ pipeline{
         stage("testes"){
             steps {
 		
-                sh "echo ${BRANCH_NAME}.substring(BRANCH_NAME.indexOf('/') + 1)"
+                sh "echo ${BRANCH_NAME}.split('/').last()"
             }
         }
 
