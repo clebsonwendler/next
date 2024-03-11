@@ -24,7 +24,7 @@ pipeline{
 
         stage('Checkout Application'){
             steps {
-                git branch: "${BRANCH_NAME}", credentialsId: "github_user_token", url: "https://github.com/${GITHUB_USERNAME}/${REPO_NAME}"
+                git branch: "${env.BRANCH_NAME}", credentialsId: "github_user_token", url: "https://github.com/${GITHUB_USERNAME}/${REPO_NAME}"
             }
         }
 
