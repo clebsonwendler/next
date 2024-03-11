@@ -15,7 +15,9 @@ pipeline{
         GITHUB_TOKEN = credentials('github_token')
 	BRANCH_NAME = "${GIT_BRANCH}"
     }
-		    def testebla = BRANCH_NAME.replace('origin/', '')
+
+	def branchNameWithoutOrigin = BRANCH_NAME.replace('origin/', '')
+
 
 	
     stages{
@@ -24,7 +26,7 @@ pipeline{
         stage("testes"){
             steps {
 		
-                sh 'echo ${testebla}'
+                sh 'echo ${branchNameWithoutOrigin}'
             }
         }
 
