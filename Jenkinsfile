@@ -13,7 +13,7 @@ pipeline{
         AWS_ACCOUNT_ID="905418180391"
         AWS_DEFAULT_REGION="us-east-1"
         GITHUB_TOKEN = credentials('github_token')
-	BRANCH_NAME = "${GIT_BRANCH}.split('/').last()"
+	BRANCH_NAME = "${GIT_BRANCH}"
     }
 
 
