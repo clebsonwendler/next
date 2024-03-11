@@ -7,13 +7,14 @@ pipeline {
  
 
   stages {
-    stage("Testes") { // Capitalization corrected
-      steps {
-        script { // Using script block for cleaner Groovy syntax
-           def branchNameWithoutOrigin = "${GIT_BRANCH}".split('/').last()
-          echo "Branch name without 'origin/': ${branchNameWithoutOrigin}"
+
+    stage('Checkout Application'){
+            steps {
+                def branchName = "${GIT_BRANCH}".split('/').last()
+                git branch: "${branchName}", credentialsId: "github_user_token", url: "https://github.com/clebsonwendler/next"
+            }
         }
-      }
-    }
   }
+
+  
 }
