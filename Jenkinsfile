@@ -22,6 +22,17 @@ pipeline{
             }
         }
 
+        stage('Testes'){
+            steps{
+                script{
+                    echo "${BRANCH_NAME}"
+                    echo "${env.BRANCH_NAME}"
+                    sh "echo BRANCH_NAME ${BRANCH_NAME}"
+                    sh "ls -lah"
+                }
+            }
+        }
+
         stage('Checkout Application'){
             steps {
                 git branch: "${env.BRANCH_NAME}", credentialsId: "github_user_token", url: "https://github.com/${GITHUB_USERNAME}/${REPO_NAME}"
