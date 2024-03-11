@@ -1,9 +1,9 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: ingress-pp-front
+  name: ingress-pp-example
   labels:
-    name: ingress-pp-front
+    name: ingress-pp-example
   namespace: apps
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-cluster-prod
@@ -21,10 +21,10 @@ spec:
         path: "/"
         backend:
           service:
-            name: pp-front-service
+            name: pp-example-service
             port: 
               number: 3000
   tls:
   - hosts:
     - "next-demo.precopratico.com.br"
-    secretName: pp-front-ssl
+    secretName: pp-example-ssl
