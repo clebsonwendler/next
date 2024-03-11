@@ -16,8 +16,6 @@ pipeline{
 	BRANCH_NAME = "${GIT_BRANCH}"
     }
 
-	def branchNameWithoutOrigin = "${env.GIT_BRANCH}".replace('origin/', '')
-
 
 
 	
@@ -27,7 +25,7 @@ pipeline{
         stage("testes"){
             steps {
 		
-                sh 'echo ${branchNameWithoutOrigin}'
+                sh 'echo ${BRANCH_NAME}.replace('origin/', '')'
             }
         }
 
