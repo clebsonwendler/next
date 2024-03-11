@@ -24,7 +24,10 @@ pipeline{
 
         stage('Checkout Application'){
             steps {
-                git branch: "${GIT_BRANCH}", credentialsId: "github_user_token", url: "https://github.com/${GITHUB_USERNAME}/${REPO_NAME}"
+                script{
+                    def branchName = "${GIT_BRANCH}".split('/').last()
+                    git branch: "${branchName}", credentialsId: "github_user_token", url: "https://github.com/${GITHUB_USERNAME}/${REPO_NAME}"
+                }
             }
         }
 
