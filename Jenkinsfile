@@ -36,9 +36,11 @@ pipeline{
         stage('Update Version for ArgoCD'){
             steps {
                 script {
-                    sh ('cat manifests/deployment.yaml')
-                    sh ('sed -i "s|$IMAGE_NAME:.*|$IMAGE_NAME:$RELEASE|g" manifests/deployment.yaml')
-                    sh ('cat manifests/deployment.yaml')
+                    sh '''
+                        cat manifests/deployment.yaml
+                        sed -i "s|$IMAGE_NAME:.*|$IMAGE_NAME:$RELEASE|g" manifests/deployment.yaml')
+                        cat manifests/deployment.yaml
+                    '''
                 }
             }
         }
