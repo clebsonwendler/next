@@ -13,7 +13,11 @@ pipeline{
         AWS_ACCOUNT_ID="905418180391"
         AWS_DEFAULT_REGION="us-east-1"
         GITHUB_TOKEN = credentials('github_token')
+	BRANCH_NAME = "${GIT_BRANCH}"
     }
+
+	def branchNameWithoutOrigin = BRANCH_NAME.split('/').last()
+	
     stages{
 
         stage('Cleanup Workspace'){
@@ -26,7 +30,7 @@ pipeline{
 
         stage("testes"){
             steps {
-                sh 'echo ${GIT_BRANCH}'
+                sh 'echo ${branchNameWithoutOrigin}'
             }
         }
 
