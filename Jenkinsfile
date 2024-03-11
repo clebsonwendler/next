@@ -22,15 +22,11 @@ pipeline{
             }
         }
 
-        stage('Checkout Application'){
-                steps {
-                    git branch: "${BRANCH_NAME}", credentialsId: "github_user_token", url: "https://github.com/${GITHUB_USERNAME}/${REPO_NAME}"
-                }
-        }
+        
 
         stage("testes"){
             steps {
-                sh 'ls -lah'
+                sh 'echo ${GIT_BRANCH}'
 		sh "echo BRANCH_NAME ${BRANCH_NAME}"
             }
         }
