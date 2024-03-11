@@ -12,7 +12,7 @@ pipeline {
             steps {
                 script{
                   def branchName = "${GIT_BRANCH}".split('/').last()
-                  sh ('echo $branchName')
+                  sh ('echo ${branchName}')
                 }
             }
         }
