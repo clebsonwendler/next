@@ -38,7 +38,7 @@ pipeline{
                 script {
                     sh '''
                         cat manifests/deployment.yaml
-                        sed -i "s|$IMAGE_NAME:.*|$IMAGE_NAME:$RELEASE|g" manifests/deployment.yaml')
+                        sed -i "s|$IMAGE_NAME:.*|$IMAGE_NAME:$RELEASE|g" manifests/deployment.yaml
                         cat manifests/deployment.yaml
                     '''
                 }
