@@ -4,7 +4,7 @@ pipeline{
         nodejs 'NodeJS'
     }
     environment {
-	    APP_NAME = "pp-front"
+	APP_NAME = "pp-front"
         RELEASE = "v${BUILD_NUMBER}"
         IMAGE_NAME = "${APP_NAME}"
         GITHUB_USERNAME = "clebsonwendler"
@@ -13,6 +13,7 @@ pipeline{
         AWS_ACCOUNT_ID= "905418180391"
         AWS_DEFAULT_REGION= "us-east-1"
         GITHUB_TOKEN = credentials('github_token')
+	TESTE = "${GIT_BRANCH}".split('/').last()
     }
     stages{
 
@@ -54,7 +55,7 @@ pipeline{
                     	git config user.name "Jenkins Agent"
                     	git add manifests/deployment.yaml
                     	git commit -m "Update to version $RELEASE"
-                    	git push https://$GITHUB_TOKEN@github.com/$GITHUB_USERNAME/$REPO_NAME HEAD:'$branchName'
+                    	git push https://$GITHUB_TOKEN@github.com/$GITHUB_USERNAME/$REPO_NAME HEAD:$TESTE
 		    '''
                 }
             }
