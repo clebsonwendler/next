@@ -30,6 +30,6 @@ jobs:
       run: |
         git add .
         git commit -am "Nova branch a partir de ${{ github.ref }}"
-        git push origin teste2
+        git push -u origin teste2
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
