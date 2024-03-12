@@ -1,0 +1,24 @@
+name: Criar branch develop para deploy
+
+on:
+  workflow_dispatch:
+
+jobs:
+  criar-branch:
+    name: Criar nova branch
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checar branch de origem
+      run: echo "A branch de origem é ${{ github.ref }}"
+
+    - name: Criar nova branch
+      run: git checkout -b teste2 ${{ github.ref }}
+
+    - name: Listar branches
+      run: git branch -a
+
+    - name: Commit e push da nova branch
+      run: |
+        git commit -am "Criando nova branch a partir de ${{ github.ref }}"
+        git push origin teste2
