@@ -21,14 +21,13 @@ jobs:
         git config --global user.name "GitHub Actions"
 
     - name: Criar nova branch
-      run: git checkout -b teste2 ${{ github.ref }}
+      run: git checkout -b teste2
 
     - name: Listar branches
       run: git branch -a
 
     - name: Commit e push da nova branch
       run: |
-        git add .
         git commit -am "Nova branch a partir de ${{ github.ref }}"
         git push -u origin teste2
       env:
