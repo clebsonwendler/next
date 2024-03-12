@@ -7,12 +7,12 @@ pipeline{
 	    APP_NAME = "pp-example"
         RELEASE = "v${BUILD_NUMBER}"
         IMAGE_NAME = "${APP_NAME}"
-        GITHUB_USERNAME = "Preco-Pratico"
-        REPO_NAME = "nextjs-example-gitops"
+        GITHUB_USERNAME = "clebsonwendlergit"
+        REPO_NAME = "nextjs"
         ECR_URI = "905418180391.dkr.ecr.us-east-1.amazonaws.com/pp-example"
         AWS_ACCOUNT_ID= "905418180391"
         AWS_DEFAULT_REGION= "us-east-1"
-        GITHUB_TOKEN = credentials('github_token')
+        GITHUB_TOKEN = credentials('github_token_clebson')
         BRANCH_NAME = "${GIT_BRANCH}".split('/').last()
     }
     stages{
@@ -27,7 +27,7 @@ pipeline{
             steps {
                 script{
                     def branchName = "${GIT_BRANCH}".split('/').last()
-                    git branch: "${branchName}", credentialsId: "github_user_token", url: "https://github.com/${GITHUB_USERNAME}/${REPO_NAME}"
+                    git branch: "${branchName}", credentialsId: "github_user_clebson", url: "https://github.com/${GITHUB_USERNAME}/${REPO_NAME}"
                 }
             }
         }
@@ -38,17 +38,17 @@ pipeline{
             }
         }
 
-        stage('Build Image') {
-            steps{
-                sh 'docker build -t ${IMAGE_NAME}:${RELEASE} .'
-            }
-        }
+        // stage('Build Image') {
+        //     steps{
+        //         sh 'docker build -t ${IMAGE_NAME}:${RELEASE} .'
+        //     }
+        // }
 
-        stage('Trivy Scan'){
-           steps {
-                sh 'docker run -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image ${IMAGE_NAME}:${RELEASE} --no-progress --scanners vuln --exit-code 0 --severity HIGH,CRITICAL --format table'
-           }
-        }
+        // stage('Trivy Scan'){
+        //    steps {
+        //         sh 'docker run -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image ${IMAGE_NAME}:${RELEASE} --no-progress --scanners vuln --exit-code 0 --severity HIGH,CRITICAL --format table'
+        //    }
+        // }
 
         stage('Logging into AWS ECR') {
             steps {
@@ -60,45 +60,45 @@ pipeline{
             }
         }
 
-        stage('Pushing to ECR') {
-            steps{  
-                sh 'docker tag ${IMAGE_NAME}:${RELEASE} ${ECR_URI}:$RELEASE'
-                sh 'docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_NAME}:${RELEASE}'
-            }
-        }
+        // stage('Pushing to ECR') {
+        //     steps{  
+        //         sh 'docker tag ${IMAGE_NAME}:${RELEASE} ${ECR_URI}:$RELEASE'
+        //         sh 'docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_NAME}:${RELEASE}'
+        //     }
+        // }
 
-       stage ('Cleanup Artifacts') {
-           steps {
-               sh 'docker rmi ${IMAGE_NAME}:${RELEASE}'
-            }
-        }
+    //    stage ('Cleanup Artifacts') {
+    //        steps {
+    //            sh 'docker rmi ${IMAGE_NAME}:${RELEASE}'
+    //         }
+    //     }
 
-        stage('Update Version for ArgoCD'){
-            steps {
-                script {
-                    sh '''
-                        cat manifests/deployment.yaml
-                        sed -i "s|$IMAGE_NAME:.*|$IMAGE_NAME:$RELEASE|g" manifests/deployment.yaml
-                        cat manifests/deployment.yaml
-                    '''
-                }
-            }
-        }
+        // stage('Update Version for ArgoCD'){
+        //     steps {
+        //         script {
+        //             sh '''
+        //                 cat manifests/deployment.yaml
+        //                 sed -i "s|$IMAGE_NAME:.*|$IMAGE_NAME:$RELEASE|g" manifests/deployment.yaml
+        //                 cat manifests/deployment.yaml
+        //             '''
+        //         }
+        //     }
+        // }
 
-        stage('Update Deployment File') {
-            steps {
-                script {
-                    def branchName = "${GIT_BRANCH}".split('/').last()
-                    sh '''
-		    	        git config user.email "hostmaster@precopratico.com.br"
-                    	git config user.name "Jenkins Agent"
-                    	git add manifests/deployment.yaml
-                    	git commit -m "Update to version $RELEASE"
-                    	git push https://$GITHUB_TOKEN@github.com/$GITHUB_USERNAME/$REPO_NAME HEAD:$BRANCH_NAME
-		            '''
-                }
-            }
-        }
+        // stage('Update Deployment File') {
+        //     steps {
+        //         script {
+        //             def branchName = "${GIT_BRANCH}".split('/').last()
+        //             sh '''
+		//     	        git config user.email "hostmaster@precopratico.com.br"
+        //             	git config user.name "Jenkins Agent"
+        //             	git add manifests/deployment.yaml
+        //             	git commit -m "Update to version $RELEASE"
+        //             	git push https://$GITHUB_TOKEN@github.com/$GITHUB_USERNAME/$REPO_NAME HEAD:$BRANCH_NAME
+		//             '''
+        //         }
+        //     }
+        // }
 
     }
 }
