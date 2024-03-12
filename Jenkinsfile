@@ -4,12 +4,12 @@ pipeline{
         nodejs 'NodeJS'
     }
     environment {
-	    APP_NAME = "pp-example"
+	    APP_NAME = "pp-front-dev"
         RELEASE = "v${BUILD_NUMBER}"
         IMAGE_NAME = "${APP_NAME}"
-        GITHUB_USERNAME = "clebsonwendlergit"
+        GITHUB_USERNAME = "clebsonwendler"
         REPO_NAME = "next"
-        ECR_URI = "905418180391.dkr.ecr.us-east-1.amazonaws.com/pp-example"
+        ECR_URI = "905418180391.dkr.ecr.us-east-1.amazonaws.com/pp-front-dev"
         AWS_ACCOUNT_ID= "905418180391"
         AWS_DEFAULT_REGION= "us-east-1"
         GITHUB_TOKEN = credentials('github_token_clebson')
@@ -34,9 +34,15 @@ pipeline{
 
         stage("Run Custom Docker Daemon"){
             steps {
-                sh 'sudo dockerd &'
+                sh 'ls -lah'
             }
         }
+
+        // stage("Run Custom Docker Daemon"){
+        //     steps {
+        //         sh 'sudo dockerd &'
+        //     }
+        // }
 
         // stage('Build Image') {
         //     steps{
@@ -50,15 +56,15 @@ pipeline{
         //    }
         // }
 
-        stage('Logging into AWS ECR') {
-            steps {
-                withCredentials([aws(credentialsId: 'aws-credentials', accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
-                    script{
-                        sh """aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com"""
-                    }
-                }
-            }
-        }
+        // stage('Logging into AWS ECR') {
+        //     steps {
+        //         withCredentials([aws(credentialsId: 'aws-credentials', accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
+        //             script{
+        //                 sh """aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com"""
+        //             }
+        //         }
+        //     }
+        // }
 
         // stage('Pushing to ECR') {
         //     steps{  
