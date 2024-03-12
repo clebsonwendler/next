@@ -35,6 +35,8 @@ pipeline{
         stage("Run Custom Docker Daemon"){
             steps {
                 sh 'ls -lah'
+                sh 'cat Jenkinsfile'
+                sh 'printenv'
             }
         }
 
