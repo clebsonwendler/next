@@ -1,23 +1,40 @@
-name: Criar branch develop para deploy
+name: Criar nova branch
 
 on:
   workflow_dispatch:
 
 jobs:
-  criar-branch:
-    name: Criar nova branch
+  criar-nova-branch:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4.1.2
+      - name: Selecionar branch
+        uses: actions/github-script@v7.0.1
+        with:
+          script: |
+            const branchName = github.event.inputs.branch_name;
+            
+            // Verifique se a branch existe
+            const branchExists = await github.repos.getBranch({
+              owner: github.repository_owner,
+              repo: github.repository,
+              branch: branchName
+            });
+            
+            if (!branchExists) {
+              // Crie a nova branch
+              await github.repos.createBranch({
+                owner: github.repository_owner,
+                repo: github.repository,
+                branch: branchName,
+                sha: github.event.inputs.base_sha
+              });
+            } else {
+              // A branch já existe
+              console.log(`A branch ${branchName} já existe.`);
+            }
 
-    - name: Checar branch de origem
-      run: echo "A branch de origem é ${{ github.ref }}"
-
-    - name: Criar
-      uses: peterjgrainger/action-create-branch@v2.2.0
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        branch: 'teste2'
+      - name: Checkout na nova branch
+        uses: actions/checkout@v4.1.2
+        with:
+          ref: ${{ github.event.inputs.branch_name }}
