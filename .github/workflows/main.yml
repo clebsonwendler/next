@@ -1,9 +1,27 @@
-name: Criar nova branch
+name: Criar branch develop
 
 on:
   workflow_dispatch:
 
 jobs:
+  verificar-branch:
+    name: Verificar existência da branch
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout do repositório
+      uses: actions/checkout@v4.1.2
+
+    - name: Verificar se a branch já existe
+      run: |
+        if git show-ref --verify --quiet refs/heads/teste3; then
+          echo "A branch teste3 já existe."
+          exit 1
+        else
+          echo "A branch teste3 não existe, será criada."
+          exit 0
+        fi
+  
   criar-branch:
     name: Criar nova branch e adicionar arquivo
     runs-on: ubuntu-latest
