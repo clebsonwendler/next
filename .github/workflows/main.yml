@@ -8,6 +8,10 @@ jobs:
     name: Criar nova branch e adicionar arquivo
     runs-on: ubuntu-latest
 
+    permissions:
+      actions: write
+      contents: write
+
     steps:
     - name: Checkout do repositório
       uses: actions/checkout@v4.1.2
@@ -23,4 +27,4 @@ jobs:
     - name: Push da nova branch
       run: git push -f origin teste3
       env:
-        GITHUB_TOKEN: "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"
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
