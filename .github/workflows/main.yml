@@ -12,6 +12,11 @@ jobs:
     - name: Checkout do repositório
       uses: actions/checkout@v4.1.2
 
+    - name: Configurar usuário do Git
+      run: |
+        git config --global user.email "hostmaster@precopratico.com.br"
+        git config --global user.name "GitHub Actions"
+
     - name: Criar nova branch
       run: git checkout -b teste3 ${{ github.ref }}
 
