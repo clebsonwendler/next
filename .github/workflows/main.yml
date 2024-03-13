@@ -4,18 +4,21 @@ on:
   workflow_dispatch:
 
 jobs:
-  criar-nova-branch:
-    name: criar-nova-branch
+  criar-branch:
+    name: Criar nova branch e adicionar arquivo
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout do repositório
-        uses: actions/checkout@v4
+    - name: Checkout do repositório
+      uses: actions/checkout@v4.1.2
 
-      - name: Criar nova branch
-        run: git checkout -b nova_branch
+    - name: Criar nova branch
+      run: git checkout -b teste3 ${{ github.ref }}
 
-      - name: Push da nova branch
-        run: git push origin nova_branch
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Commit da nova branch
+      run: git commit -m "Criando nova branch a partir de ${{ github.ref }}"
+
+    - name: Push da nova branch
+      run: git push -u origin teste3
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
