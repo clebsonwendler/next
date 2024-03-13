@@ -8,15 +8,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-
-      - name: Checkout na nova branch
-        uses: actions/checkout@v4.1.2
-
       - name: Selecionar branch
-        uses: actions/github-script@v7.0.1
+        uses: actions/github-script@v7
         with:
           script: |
-            const branchName = ${{ github.ref }};
+            const branchName = github.ref.replace('refs/heads/', '');
             
             // Verifique se a branch existe
             const branchExists = await github.repos.getBranch({
@@ -31,10 +27,14 @@ jobs:
                 owner: github.repository_owner,
                 repo: github.repository,
                 branch: branchName,
-                // Use o secrets.GITHUB_TOKEN para autenticação
                 token: ${{ secrets.GITHUB_TOKEN }}
               });
             } else {
               // A branch já existe
               console.log(`A branch ${branchName} já existe.`);
             }
+
+      - name: Checkout na nova branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
