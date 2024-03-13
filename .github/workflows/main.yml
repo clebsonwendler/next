@@ -17,13 +17,10 @@ jobs:
         git config --global user.email "hostmaster@precopratico.com.br"
         git config --global user.name "GitHub Actions"
 
-    - name: Criar arquivo de teste ( Adicione ou modifique um arquivo aqui )
-      run: echo "Este é um arquivo de teste" > novo_arquivo.txt
-
     - name: Criar nova branch
       run: git checkout -b teste3
 
     - name: Push da nova branch
       run: git push -f origin teste3
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: "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"
