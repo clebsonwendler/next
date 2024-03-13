@@ -8,6 +8,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+
+      - name: Checkout na nova branch
+        uses: actions/checkout@v4.1.2
+
       - name: Selecionar branch
         uses: actions/github-script@v7.0.1
         with:
@@ -34,8 +38,3 @@ jobs:
               // A branch já existe
               console.log(`A branch ${branchName} já existe.`);
             }
-
-      - name: Checkout na nova branch
-        uses: actions/checkout@v4.1.2
-        with:
-          ref: ${{ github.ref }}
