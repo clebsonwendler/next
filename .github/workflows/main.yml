@@ -16,7 +16,7 @@ jobs:
         else
           echo "A branch teste3 não existe. Criando..."
           git checkout -b teste3
-          git push -f origin teste3
+          git push origin teste3
         fi
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
