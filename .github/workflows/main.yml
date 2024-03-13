@@ -5,36 +5,17 @@ on:
 
 jobs:
   criar-nova-branch:
+    name: criar-nova-branch
     runs-on: ubuntu-latest
 
     steps:
-      - name: Selecionar branch
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const branchName = "teste3";
-            
-            // Verifique se a branch existe
-            const branchExists = await github.repos.getBranch({
-              owner: github.repository_owner,
-              repo: github.repository,
-              branch: branchName
-            });
-            
-            if (!branchExists) {
-              // Crie a nova branch
-              await github.repos.createBranch({
-                owner: github.repository_owner,
-                repo: github.repository,
-                branch: branchName,
-                token: ${{ secrets.GITHUB_TOKEN }}
-              });
-            } else {
-              // A branch já existe
-              console.log(`A branch ${branchName} já existe.`);
-            }
+      - name: Checkout do repositório
+        uses: actions/checkout@v2
 
-      - name: Checkout na nova branch
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ github.ref }}
+      - name: Criar nova branch
+        run: git checkout -b nova_branch
+
+      - name: Push da nova branch
+        run: git push origin nova_branch
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
