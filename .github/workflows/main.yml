@@ -21,14 +21,9 @@ jobs:
       run: echo "Este é um arquivo de teste" > novo_arquivo.txt
 
     - name: Criar nova branch
-      run: git checkout -b teste3 ${{ github.ref }}
-
-    - name: Commit da nova branch
-      run: |
-        git add .
-        git commit -am "Criando nova branch a partir de ${{ github.ref }}"
+      run: git checkout -b teste3
 
     - name: Push da nova branch
-      run: git push -u origin teste3
+      run: git push -f origin teste3
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
