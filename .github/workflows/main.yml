@@ -27,7 +27,8 @@ jobs:
                 owner: github.repository_owner,
                 repo: github.repository,
                 branch: branchName,
-                sha: github.event.inputs.base_sha
+                // Use o secrets.GITHUB_TOKEN para autenticação
+                token: ${{ secrets.GITHUB_TOKEN }}
               });
             } else {
               // A branch já existe
