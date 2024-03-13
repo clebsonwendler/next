@@ -1,48 +1,22 @@
-name: Criar branch develop
+name: Verificar e criar branch
 
 on:
   workflow_dispatch:
 
 jobs:
-  verificar-branch:
-    name: Verificar existência da branch
+  verificar-e-criar-branch:
+    name: Verificar e criar nova branch
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout do repositório
-      uses: actions/checkout@v4.1.2
-
-    - name: Verificar se a branch já existe
+    - name: Verificar se a branch existe
       run: |
-        if git show-ref --verify --quiet refs/heads/teste3; then
+        if git ls-remote --heads origin teste3 | grep -q "refs/heads/teste3"; then
           echo "A branch teste3 já existe."
-          exit 1
         else
-          echo "A branch teste3 não existe, será criada."
-          exit 0
+          echo "A branch teste3 não existe. Criando..."
+          git checkout -b teste3
+          git push -f origin teste3
         fi
-  
-  criar-branch:
-    name: Criar nova branch e adicionar arquivo
-    runs-on: ubuntu-latest
-
-    permissions:
-      actions: write
-      contents: write
-
-    steps:
-    - name: Checkout do repositório
-      uses: actions/checkout@v4.1.2
-
-    - name: Configurar usuário do Git
-      run: |
-        git config --global user.email "hostmaster@precopratico.com.br"
-        git config --global user.name "GitHub Actions"
-
-    - name: Criar nova branch
-      run: git checkout -b teste3
-
-    - name: Push da nova branch
-      run: git push -f origin teste3
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
