@@ -21,10 +21,17 @@ jobs:
         git config --global user.email "hostmaster@precopratico.com.br"
         git config --global user.name "GitHub Actions"
 
+    # Verificar se a branch develop já existe
+    - name: Verificar existência da branch develop
+      run: |
+        if git show-ref --verify --quiet "refs/heads/develop"; then
+          git branch -D develop
+        fi
+
     - name: Criar a nova branch
-      run: git checkout -b teste3
+      run: git checkout -b develop
 
     - name: Push da nova branch
-      run: git push -f origin teste3
+      run: git push origin develop
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
