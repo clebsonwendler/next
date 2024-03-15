@@ -25,13 +25,13 @@ jobs:
     - name: Verificar existência da branch develop
       run: |
         if git show-ref --verify --quiet "refs/heads/develop"; then
-          git branch -D develop
+          git branch -D -f develop
         fi
 
     - name: Criar a nova branch
       run: git checkout -b develop
 
     - name: Push da nova branch
-      run: git push origin develop
+      run: git push -f origin develop
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
