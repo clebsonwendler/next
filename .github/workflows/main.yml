@@ -23,7 +23,7 @@ jobs:
 
     - name: Verificar existência da branch develop
       run: |
-        if git ls-remote --heads origin refs/heads/develop; then
+        if git ls-remote --heads origin refs/heads/develop | grep -q "refs/heads/develop"; then
           git push -f origin --delete develop
         else
           echo "Branch 'develop' não encontrada no repositório remoto."
