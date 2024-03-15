@@ -22,6 +22,6 @@ jobs:
         git config --global user.name "GitHub Actions"
     - name: Verificar existência da branch develop
       run: |
-        echo git show-ref --verify --quiet "refs/heads/develop"
+        git show-ref --verify --quiet "refs/heads/develop"
 
    
