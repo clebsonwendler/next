@@ -25,6 +25,8 @@ jobs:
       run: |
         if git ls-remote --heads origin refs/heads/develop; then
           git push -f origin --delete develop
+        else
+          echo "Branch 'develop' não encontrada no repositório remoto."
         fi
 
     - name: Criar a nova branch
