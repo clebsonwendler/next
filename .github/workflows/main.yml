@@ -22,6 +22,8 @@ jobs:
         git config --global user.name "GitHub Actions"
     - name: Verificar existência da branch develop
       run: |
-        git ls-remote --heads origin refs/heads/develop
+        if git ls-remote --heads origin refs/heads/develop; then
+          git branch -D -f develop
+        fi
 
    
