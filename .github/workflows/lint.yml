@@ -1,0 +1,24 @@
+name: Lint Test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  lint:
+    name: Lint Check with Yarn
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4.1.2
+
+    - name: Use Node.js
+      uses: actions/setup-node@v4.0.2
+      with:
+        node-version: '21'
+
+    - name: Install Dependencies
+      run: yarn install
+
+    - name: Run Lint
+      run: yarn lint
